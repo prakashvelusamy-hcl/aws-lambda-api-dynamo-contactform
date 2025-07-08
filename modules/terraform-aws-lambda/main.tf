@@ -6,21 +6,23 @@ data "archive_file" "lambda_zip" {
 resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = var.aws_lambda_function_name
-  role             =  aws_iam_role.lambda_exec.arn
+  role             = aws_iam_role.lambda_exec.arn
   handler          = "contact.lambda_handler"
   runtime          = "python3.11"
   timeout          = 30
   memory_size      = 128
   source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
-    environment {
+  
+  environment {
     variables = {
       DYNAMODB_TABLE = var.dynamodb_name
-      SNS_TOPIC_ARN  = var.sns_topic_arn
+      SES_SENDER_EMAIL = "prakashvelusamy1999@gmail.com"
     }
   }
-  depends_on       = [aws_iam_role.lambda_exec]
-   tags            = var.project_tags
+  
+  depends_on = [aws_iam_role.lambda_exec]
 }
+
 
 
 resource "aws_lambda_permission" "apigw_invoke" {

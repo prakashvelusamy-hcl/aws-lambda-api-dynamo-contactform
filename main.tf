@@ -23,7 +23,6 @@ module "dynamo_db_table" {
     project_tags = var.project_tags
 }
 
-module "sns" {
-    source = "./modules/terraform-aws-sns"
-    lambda_arn = module.lambda.lambda_arn
+module "ses" {
+    source = "./modules/terraform-aws-ses"
 }

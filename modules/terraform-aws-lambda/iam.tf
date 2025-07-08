@@ -15,13 +15,13 @@ resource "aws_iam_role" "lambda_exec" {
 
 resource "aws_iam_policy" "lambda_dynamodb_policy" {
   name        = "LambdaDynamoDBAccessPolicy"
-  description = "Allows Lambda to access DynamoDB table and SNS"
+  description = "Allows Lambda to access DynamoDB table and SES"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Sid       = "DynamoDBReadAccess"
+        Sid       = "DynamoDBWriteAccess"
         Effect    = "Allow"
         Action    = [
           "dynamodb:PutItem",
@@ -43,14 +43,18 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
         Resource  = "*"
       },
       {
-        Sid       = "SNSPublishAccess"
+        Sid       = "SESSendEmail"
         Effect    = "Allow"
-        Action    = "sns:Publish"
-        Resource  = var.sns_topic_arn
+        Action    = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource  = "*"
       }
     ]
   })
 }
+
 
 
 resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attach" {

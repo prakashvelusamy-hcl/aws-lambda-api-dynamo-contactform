@@ -5,11 +5,13 @@ from datetime import datetime
 
 # Initialize AWS clients
 dynamodb = boto3.client('dynamodb')
-sns = boto3.client('sns')
+ses = boto3.client('ses')
 
-# DynamoDB table name and SNS Topic ARN from environment variables
+# DynamoDB table name and SES email configuration from environment variables
 DYNAMODB_TABLE = os.environ['DYNAMODB_TABLE']
-SNS_TOPIC_ARN = os.environ['SNS_TOPIC_ARN']
+SENDER_EMAIL = os.environ['SENDER_EMAIL']  # This will be the email address that SES is verified with
+RECIPIENT_EMAIL = os.environ['RECIPIENT_EMAIL']  # The recipient email address
+AWS_REGION = os.environ['AWS_REGION']
 
 def lambda_handler(event, context):
     try:
@@ -21,27 +23,34 @@ def lambda_handler(event, context):
         
         # Create a unique ID for the contact submission (e.g., timestamp)
         submission_id = str(datetime.utcnow().isoformat())
-        timestamp = int(datetime.utcnow().timestamp())  # Convert to Unix timestamp (seconds)
+        timestamp = str(datetime.utcnow().isoformat())
 
         # Save to DynamoDB
         dynamodb.put_item(
             TableName=DYNAMODB_TABLE,
             Item={
                 'id': {'S': submission_id},
-                'timestamp': {'N': str(timestamp)},  # Store as number
+                'timestamp': {'S': timestamp},
                 'name': {'S': name},
                 'email': {'S': email},
                 'message': {'S': message}
             }
         )
 
-        # Send notification to SNS
-        sns_message = f"New Contact Form Submission:\n\nName: {name}\nEmail: {email}\nMessage: {message}"
-        
-        sns.publish(
-            TopicArn=SNS_TOPIC_ARN,
-            Message=sns_message,
-            Subject="New Contact Form Submission"
+        # Send notification email using SES
+        subject = "New Contact Form Submission"
+        email_body = f"New Contact Form Submission:\n\nName: {name}\nEmail: {email}\nMessage: {message}"
+
+        # Send email via SES
+        ses.send_email(
+            Source=SENDER_EMAIL,
+            Destination={
+                'ToAddresses': [RECIPIENT_EMAIL]
+            },
+            Message={
+                'Subject': {'Data': subject},
+                'Body': {'Text': {'Data': email_body}}
+            }
         )
 
         # Return successful response
