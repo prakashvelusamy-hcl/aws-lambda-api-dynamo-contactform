@@ -19,5 +19,4 @@ module "dynamo_db_table" {
     dynamodb_name = var.dynamodb_name
     dynamodb_billing_mode = var.dynamodb_billing_mode
     project_tags = var.project_tags
-
 }
