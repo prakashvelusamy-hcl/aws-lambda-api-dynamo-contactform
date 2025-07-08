@@ -14,7 +14,7 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
 
 resource "aws_apigatewayv2_route" "default_route" {
   api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "GET /${var.route_key}"
+  route_key = "POST /${var.route_key}"
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
