@@ -21,14 +21,14 @@ def lambda_handler(event, context):
         
         # Create a unique ID for the contact submission (e.g., timestamp)
         submission_id = str(datetime.utcnow().isoformat())
-        timestamp = str(datetime.utcnow().isoformat())
+        timestamp = int(datetime.utcnow().timestamp())  # Convert to Unix timestamp (seconds)
 
         # Save to DynamoDB
         dynamodb.put_item(
             TableName=DYNAMODB_TABLE,
             Item={
                 'id': {'S': submission_id},
-                'timestamp': {'S': timestamp},
+                'timestamp': {'N': str(timestamp)},  # Store as number
                 'name': {'S': name},
                 'email': {'S': email},
                 'message': {'S': message}
