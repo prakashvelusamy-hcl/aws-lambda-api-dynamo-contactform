@@ -9,8 +9,8 @@ ses = boto3.client('ses')
 
 # DynamoDB table name and SES email configuration from environment variables
 DYNAMODB_TABLE = os.environ['DYNAMODB_TABLE']
-SENDER_EMAIL = os.environ['SENDER_EMAIL']  # This will be the email address that SES is verified with
-RECIPIENT_EMAIL = os.environ['RECIPIENT_EMAIL']  # The recipient email address
+SENDER_EMAIL = os.environ['SES_SENDER_EMAIL']  # Sender email (SES verified)
+RECIPIENT_EMAIL = os.environ['SES_RECIPIENT_EMAIL']  # Recipient email
 AWS_REGION = os.environ['AWS_REGION']
 
 def lambda_handler(event, context):
