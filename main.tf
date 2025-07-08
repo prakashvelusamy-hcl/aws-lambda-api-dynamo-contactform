@@ -3,7 +3,6 @@ module "lambda" {
   api_gateway_arn = module.api_gateway.api_gateway_arn
   aws_lambda_function_name = var.aws_lambda_function_name
   project_tags = var.project_tags
-  sns_topic_arn = module.sns.sns_topic_arn
   dynamodb_name = var.dynamodb_name
   dynamodb_table_arn = module.dynamo_db_table.dynamodb_table_arn
 }
