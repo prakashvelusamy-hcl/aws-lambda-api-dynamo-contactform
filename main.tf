@@ -15,7 +15,7 @@ module "api_gateway" {
 }
 
 module "dynamo_db_table" {
-    source = "./modules/terraform-aws-apigateway"
+    source = "./modules/terraform-aws-dynamodb"
     dynamodb_name = var.dynamodb_name
     dynamodb_billing_mode = var.dynamodb_billing_mode
     project_tags = var.project_tags
