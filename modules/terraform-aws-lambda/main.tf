@@ -18,7 +18,7 @@ resource "aws_lambda_function" "lambda" {
       DYNAMODB_TABLE     = var.dynamodb_name
       SES_SENDER_EMAIL   = "prakashvelusamy1999@gmail.com" 
       SES_RECIPIENT_EMAIL = "prakashvelusamy1999@gmail.com"         
-      AWS_REGION         = "ap-south-1"                      
+      SES_REGION         = "ap-south-1"                      
     }
   }
 

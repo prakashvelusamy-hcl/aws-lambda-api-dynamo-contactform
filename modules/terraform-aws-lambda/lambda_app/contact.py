@@ -11,7 +11,7 @@ ses = boto3.client('ses')
 DYNAMODB_TABLE = os.environ['DYNAMODB_TABLE']
 SENDER_EMAIL = os.environ['SES_SENDER_EMAIL']  # Sender email (SES verified)
 RECIPIENT_EMAIL = os.environ['SES_RECIPIENT_EMAIL']  # Recipient email
-AWS_REGION = os.environ['AWS_REGION']
+AWS_REGION = os.environ['SES_REGION']
 
 def lambda_handler(event, context):
     try:
