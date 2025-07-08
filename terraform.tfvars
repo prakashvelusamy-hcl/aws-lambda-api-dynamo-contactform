@@ -7,4 +7,4 @@ project_tags = {
   Owner       = "dev-team"
 }
 dynamodb_name = "contact_dynamo_db"
-dynamodb_billing_mode = "PROVISIONED" 
+dynamodb_billing_mode = "PAY_PER_REQUEST" 

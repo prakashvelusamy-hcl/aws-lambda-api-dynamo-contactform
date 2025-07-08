@@ -14,10 +14,5 @@ resource "aws_dynamodb_table" "contact" {
     type = "N" 
   }
 
-  provisioned_throughput {
-    read_capacity  = 5
-    write_capacity = 5
-  }
-
   tags = var.project_tags
 }
