@@ -1,0 +1,1 @@
+curl -X POST https://2uy9tytr1h.execute-api.ap-south-1.amazonaws.com/contact -H "Content-Type: application/json" -d '{"name": "Bharath", "email": "Bharath@gmail.com", "message": "I am a devops Engineer"}'
