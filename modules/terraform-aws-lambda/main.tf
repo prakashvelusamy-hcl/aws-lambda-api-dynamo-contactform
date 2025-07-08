@@ -7,7 +7,7 @@ resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = var.aws_lambda_function_name
   role             =  aws_iam_role.lambda_exec.arn
-  handler          = "contact.handler"
+  handler          = "contact.lambda_handler"
   runtime          = "python3.11"
   timeout          = 30
   memory_size      = 128
