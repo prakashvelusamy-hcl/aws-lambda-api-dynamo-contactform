@@ -15,41 +15,43 @@ resource "aws_iam_role" "lambda_exec" {
 
 resource "aws_iam_policy" "lambda_dynamodb_policy" {
   name        = "LambdaDynamoDBAccessPolicy"
-  description = "Allows Lambda to access DynamoDB table"
+  description = "Allows Lambda to access DynamoDB table and SNS"
 
   policy = jsonencode({
     Version = "2012-10-17",
-    Statement: [
+    Statement = [
       {
-        Sid: "DynamoDBReadAccess",
-        Effect: "Allow",
-        Action: [
+        Sid       = "DynamoDBReadAccess"
+        Effect    = "Allow"
+        Action    = [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:Query",
           "dynamodb:Scan",
           "dynamodb:BatchGetItem"
-        ],
-        Resource: var.dynamodb_table_arn
+        ]
+        Resource  = var.dynamodb_table_arn
       },
       {
-        Sid: "CloudWatchLogging",
-        Effect: "Allow",
-        Action: [
+        Sid       = "CloudWatchLogging"
+        Effect    = "Allow"
+        Action    = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents"
-        ],
-        Resource: "*"
-      }
+        ]
+        Resource  = "*"
+      },
       {
-     Effect = "Allow",
-     Action = "sns:Publish",
-     Resource = aws_sns_topic.contact_form_notifications.arn
-}
+        Sid       = "SNSPublishAccess"
+        Effect    = "Allow"
+        Action    = "sns:Publish"
+        Resource  = var.sns_topic_arn
+      }
     ]
   })
 }
+
 
 resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attach" {
   role       = aws_iam_role.lambda_exec.name
