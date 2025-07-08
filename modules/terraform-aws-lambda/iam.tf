@@ -24,6 +24,7 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
         Sid: "DynamoDBReadAccess",
         Effect: "Allow",
         Action: [
+          "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:Query",
           "dynamodb:Scan",
@@ -41,6 +42,11 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
         ],
         Resource: "*"
       }
+      {
+     Effect = "Allow",
+     Action = "sns:Publish",
+     Resource = aws_sns_topic.contact_form_notifications.arn
+}
     ]
   })
 }

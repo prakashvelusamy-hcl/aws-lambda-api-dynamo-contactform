@@ -15,3 +15,11 @@ variable "dynamodb_table_arn" {
     description = "The DynamoDB table arn"
     type = string
 }
+variable "sns_topic_arn" {
+    description = "The sns_topic_arn"
+    type = string
+}
+variable "dynamodb_name" {
+    description = "The Dynamo DB table name"
+    type = string
+} 
